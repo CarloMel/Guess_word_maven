@@ -21,7 +21,7 @@ import org.jsoup.select.Elements;
 public class UrlHandler {
 
     private String inputUrl;
-    private List<Word> listFromUrl;
+    private List<String> listFromUrl;
 
     public UrlHandler(String url) {
 
@@ -49,11 +49,11 @@ public class UrlHandler {
 
     }
 
-    public List<Word> getListFromUrl() {
+    public List<String> getListFromUrl() {
         return listFromUrl;
     }
 
-    public void setListFromUrl(List<Word> listFromUrl) {
+    public void setListFromUrl(List<String> listFromUrl) {
         this.listFromUrl = listFromUrl;
     }
 
@@ -93,7 +93,9 @@ public class UrlHandler {
         }
     }
 
-    public void fillListFromURL() {
+    public List<String> fillListFromURL() {
+
+        List<String> listOfWords = new ArrayList<>();
 
         if (linkIsValid(getInputUrl())) {
             try {
@@ -102,13 +104,17 @@ public class UrlHandler {
                 // selecting document's body
                 Element body = document.body();
                 // selecting body's elements
+                // needs to get cleaned
                 Elements e = body.select("body");
-    
-                System.out.println(e);
+                // add content of body inside a list of words
+                listOfWords.add(e.text());
+
+                System.out.println("Mostra lista parole: " + listOfWords.toString());
+                System.out.println("Mostra grandezza lista: " + listOfWords.size());
             } catch (IOException e) {
                 System.out.println("Errore: " + e.getMessage());
             }
-
         }
+        return listOfWords;
     } 
 }

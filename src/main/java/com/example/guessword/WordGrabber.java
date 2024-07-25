@@ -40,7 +40,8 @@ public class WordGrabber {
         .toUpperCase()
         .toCharArray()) {
 
-            if (!Character.isLetter(c) && !Character.isWhitespace(c)) 
+            // && !Character.isWhitespace(c)
+            if (!Character.isLetter(c)) 
                 return false;
         }
         return true;
@@ -49,11 +50,6 @@ public class WordGrabber {
     @Override
     public String toString() {
 
-        List<String>parsedStrings = new ArrayList<>();
-        for (Word w : wordList) {
-            parsedStrings.add(w.getContent()) ;
-        }
-
-        return parsedStrings.toString();
+        return getWordList().toString();
     }
 }

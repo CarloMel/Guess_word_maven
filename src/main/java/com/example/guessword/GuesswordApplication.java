@@ -24,6 +24,7 @@ public class GuesswordApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		start();
+		// test();
 	}
 
 	public void test() throws Exception {
@@ -75,5 +76,8 @@ public class GuesswordApplication implements CommandLineRunner {
 
 		UrlHandler validLink = new UrlHandler("https://terraria.wiki.gg/wiki/Golden_Shower");
 		validLink.fillListFromURL();
+		// UrlHandler testLink = new UrlHandler("");
+		// testLink.fillListFromURL();
+
 	}
 }
