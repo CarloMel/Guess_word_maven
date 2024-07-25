@@ -73,7 +73,7 @@ public class GuesswordApplication implements CommandLineRunner {
 
 	public void start() {
 
-		UrlHandler validLink = new UrlHandler("https://www.google.com/");
-		UrlHandler invalidLink = new UrlHandler("pisnelo");
+		UrlHandler validLink = new UrlHandler("https://terraria.wiki.gg/wiki/Golden_Shower");
+		validLink.fillListFromURL();
 	}
 }

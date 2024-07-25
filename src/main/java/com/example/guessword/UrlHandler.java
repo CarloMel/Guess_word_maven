@@ -5,11 +5,18 @@ package com.example.guessword;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.jsoup.Jsoup;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 // importing java.net
 import java.net.URL;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class UrlHandler {
 
@@ -85,14 +92,21 @@ public class UrlHandler {
             return false;
         }
     }
-}
 
-/*
- * catch (MalformedURLException e) {
-    System.err.println("URL non valido: " + e.getMessage());
-} catch (IOException e) {
-    System.err.println("Errore di connessione o timeout per il link: " + e.getMessage());
-} catch (Exception e) {
-    System.err.println("Si è verificato un errore imprevisto: " + e.getMessage());
+    public void fillListFromURL() {
+
+        if (linkIsValid(getInputUrl())) {
+
+            // connecting to page and parsing document
+
+            // *** IL CAST A DOCUMENT NON FUNZIONA, FIXA
+            Document document = Jsoup.connect(getInputUrl());
+            // selecting document's body
+            Element body = document.body();
+            // selecting body's elements
+            Elements e = body.select("body");
+
+            System.out.println(e);
+        }
+    } 
 }
- */
