@@ -96,17 +96,19 @@ public class UrlHandler {
     public void fillListFromURL() {
 
         if (linkIsValid(getInputUrl())) {
+            try {
+                // connecting to page and parsing document
+                Document document = Jsoup.connect(getInputUrl()).get();
+                // selecting document's body
+                Element body = document.body();
+                // selecting body's elements
+                Elements e = body.select("body");
+    
+                System.out.println(e);
+            } catch (IOException e) {
+                System.out.println("Errore: " + e.getMessage());
+            }
 
-            // connecting to page and parsing document
-
-            // *** IL CAST A DOCUMENT NON FUNZIONA, FIXA
-            Document document = Jsoup.connect(getInputUrl());
-            // selecting document's body
-            Element body = document.body();
-            // selecting body's elements
-            Elements e = body.select("body");
-
-            System.out.println(e);
         }
     } 
 }
