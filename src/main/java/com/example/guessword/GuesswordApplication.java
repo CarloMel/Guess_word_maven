@@ -26,7 +26,7 @@ public class GuesswordApplication implements CommandLineRunner {
 		start();
 	}
 
-	public void start() throws Exception {
+	public void test() throws Exception {
 
 		// wb adds valid words to a list,
 		// invalid words will be created as object but ignored (won't be added in list)
@@ -69,5 +69,11 @@ public class GuesswordApplication implements CommandLineRunner {
 		wb.populateList(pippo1);
 
 		System.out.println("List of words: " + wb);
+	}
+
+	public void start() {
+
+		UrlHandler validLink = new UrlHandler("https://www.google.com/");
+		UrlHandler invalidLink = new UrlHandler("pisnelo");
 	}
 }

@@ -1,3 +1,5 @@
+// This class filters words inside a List of Word
+
 package com.example.guessword;
 
 import java.util.ArrayList;
