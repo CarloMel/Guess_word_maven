@@ -74,10 +74,16 @@ public class GuesswordApplication implements CommandLineRunner {
 
 	public void start() {
 
-		UrlHandler validLink = new UrlHandler("https://terraria.wiki.gg/wiki/Golden_Shower");
-		validLink.fillListFromURL();
-		// UrlHandler testLink = new UrlHandler("");
-		// testLink.fillListFromURL();
+		WordGrabber wg = new WordGrabber();
 
+		UrlHandler validLink = new UrlHandler("https://terraria.wiki.gg/wiki/Golden_Shower");
+		String block = validLink.getBlockFromURL();
+		System.out.println("Lista: ");
+		System.out.println(wg.createListFromBlock(block));
+		System.out.println("Grandezza lista: ");
+		System.out.println(wg.createListFromBlock(block).size());
+
+		// CREARE PIU COLLEGAMENTI TRA I COMPONENTI, ATTIVARE I FILTRI,
+		//RENDERE TUTTO TOUPPERCASE() RIVEDERTI LA LOGICA DI BUSINESS
 	}
 }

@@ -47,6 +47,22 @@ public class WordGrabber {
         return true;
     }
 
+    public List<String> createListFromBlock(String block) {
+
+        List<String> list = new ArrayList<>();
+
+        String[] sl = block.split(" ");
+
+        for (String s : sl) {
+            String filteredWord = s.replaceAll("^[,.!?;:]+|[,.!?;:]+$", "");
+            if (!s.isEmpty()) {
+                list.add(filteredWord);
+            }
+        }
+
+        return list;
+    }
+
     @Override
     public String toString() {
 

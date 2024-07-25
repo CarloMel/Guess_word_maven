@@ -1,5 +1,5 @@
 // takes link as input
-// gives back a list of words
+// gives back 1 long string element
 
 package com.example.guessword;
 
@@ -13,7 +13,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 // importing java.net
 import java.net.URL;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -57,7 +56,7 @@ public class UrlHandler {
         this.listFromUrl = listFromUrl;
     }
 
-    public boolean linkIsValid(String link)  {
+    public boolean linkIsValid(String link) {
 
         try {
 
@@ -71,7 +70,7 @@ public class UrlHandler {
             connection.setConnectTimeout(5000);
             // create a variable that will have a code of response for connection
             int connectionCode = connection.getResponseCode();
-            //close connection
+            // close connection
             connection.disconnect();
 
             if (connectionCode == 200) {
@@ -93,9 +92,9 @@ public class UrlHandler {
         }
     }
 
-    public List<String> fillListFromURL() {
+    public String getBlockFromURL() {
 
-        List<String> listOfWords = new ArrayList<>();
+        String block = "";
 
         if (linkIsValid(getInputUrl())) {
             try {
@@ -107,14 +106,11 @@ public class UrlHandler {
                 // needs to get cleaned
                 Elements e = body.select("body");
                 // add content of body inside a list of words
-                listOfWords.add(e.text());
-
-                System.out.println("Mostra lista parole: " + listOfWords.toString());
-                System.out.println("Mostra grandezza lista: " + listOfWords.size());
+                block = e.text();
             } catch (IOException e) {
                 System.out.println("Errore: " + e.getMessage());
             }
         }
-        return listOfWords;
-    } 
+        return block;
+    }
 }
