@@ -42,9 +42,13 @@ public class GuesswordApplication implements CommandLineRunner {
 		int randomNumber =   wordGuessGame.selectRandomFromSet();
 		// converting Set to List, so I can work with index
 		List<String> setToList = new ArrayList<>(wordGuessGame.getSetList());
+		// setting a random element of the list as word to guess
+		wordGuessGame.setWordToGuess(setToList.get(randomNumber));
 
 		System.out.println("RANDOM NUMBER BASED ON LIST LENGTH: " + randomNumber);
 		System.out.println("The " + randomNumber + "° SET ELEMENT IS: " + setToList.get(randomNumber));
+
+		wordGuessGame.playGame();
 	}
 
 	public void start() {
