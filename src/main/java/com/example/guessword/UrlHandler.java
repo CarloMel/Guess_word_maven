@@ -1,5 +1,5 @@
 // takes link as input
-// gives back 1 long string element
+// gives back 1 list of String
 
 package com.example.guessword;
 
@@ -11,11 +11,9 @@ import org.jsoup.Jsoup;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-// importing java.net
 import java.net.URL;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 public class UrlHandler {
 
@@ -25,7 +23,7 @@ public class UrlHandler {
     public UrlHandler(String url) {
 
         setInputUrl(url);
-        listFromUrl = new ArrayList<>();
+        listFromUrl = filterBlock();
     }
 
     public String getInputUrl() {
@@ -41,11 +39,6 @@ public class UrlHandler {
             // if link works
             this.inputUrl = inputUrl;
         }
-
-        // if link is not valid you will get this
-        if (!linkIsValid(inputUrl))
-            System.out.println("Link is not valid");
-
     }
 
     public List<String> getListFromUrl() {
@@ -77,40 +70,82 @@ public class UrlHandler {
                 System.out.println("Link is valid");
                 return true;
             } else {
-                System.out.println("Link is not valid");
                 return false;
             }
         } catch (MalformedURLException e) {
-            System.err.println("URL non valido: " + e.getMessage());
+            System.err.println("Unvalid URL: " + e.getMessage());
             return false;
         } catch (IOException e) {
-            System.err.println("Errore di connessione o timeout per il link: " + e.getMessage());
+            System.err.println("Connection error or timeout link: " + e.getMessage());
             return false;
         } catch (Exception e) {
-            System.err.println("Si è verificato un errore imprevisto: " + e.getMessage());
+            System.err.println("Unexpected error: " + e.getMessage());
             return false;
         }
     }
 
+    // If Link is valid, this method will return one big block of unfiltered text
     public String getBlockFromURL() {
 
         String block = "";
 
         if (linkIsValid(getInputUrl())) {
             try {
-                // connecting to page and parsing document
+                // connecting to page
+                // loading page's content into a Document object
                 Document document = Jsoup.connect(getInputUrl()).get();
-                // selecting document's body
+                // selecting document's <body>
                 Element body = document.body();
-                // selecting body's elements
-                // needs to get cleaned
-                Elements e = body.select("body");
-                // add content of body inside a list of words
-                block = e.text();
-            } catch (IOException e) {
-                System.out.println("Errore: " + e.getMessage());
+
+                // if I wanted to select something inside body like <a> for example
+                // Elements e = body.select("a");
+
+                // add content of body inside a variable
+                block = body.text();
+            } catch (IOException body) {
+                System.out.println("Error: " + body.getMessage());
             }
         }
         return block;
+    }
+
+    // Will filter 1 block of text and return a List of playable words
+    public List<String> filterBlock () {
+
+        List<String> stringList = new ArrayList<>();
+
+        String block = getBlockFromURL();
+        String[] blockToArray = block.split("\\s+");
+        for (String s : blockToArray){
+
+            String filteredWord = s.replaceAll("^[,.!?;:]+|[,.!?;:]+$", "");
+
+            // if word is not empty, it's valid
+            if (!filteredWord.isEmpty()
+            && isWordValid(filteredWord))
+                stringList.add(filteredWord.toUpperCase());
+        }
+
+        System.out.println("stringList: " + stringList);
+        return stringList;
+    }
+
+    //Gets 1 String return true if it's a playable word
+    public boolean isWordValid(String word) {
+
+        String s = word;
+        if (s.length() < 4) {
+            return false;
+        }
+
+        for (char c : word
+                .trim()
+                .toUpperCase()
+                .toCharArray()) {
+
+            if (!Character.isLetter(c))
+                return false;
+        }
+        return true;
     }
 }
