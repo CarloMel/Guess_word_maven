@@ -3,8 +3,8 @@
 
 package com.example.guessword;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.jsoup.Jsoup;
 
@@ -18,12 +18,12 @@ import org.jsoup.nodes.Element;
 public class UrlHandler {
 
     private String inputUrl;
-    private List<String> listFromUrl;
+    private Set<String> setFromUrl;
 
     public UrlHandler(String url) {
 
         setInputUrl(url);
-        listFromUrl = filterBlock();
+        setFromUrl = filterBlock();
     }
 
     public String getInputUrl() {
@@ -41,12 +41,12 @@ public class UrlHandler {
         }
     }
 
-    public List<String> getListFromUrl() {
-        return listFromUrl;
+    public Set<String> getSetFromUrl() {
+        return setFromUrl;
     }
 
-    public void setListFromUrl(List<String> listFromUrl) {
-        this.listFromUrl = listFromUrl;
+    public void setSetFromUrl(Set<String> setFromUrl) {
+        this.setFromUrl = setFromUrl;
     }
 
     public boolean linkIsValid(String link) {
@@ -67,7 +67,6 @@ public class UrlHandler {
             connection.disconnect();
 
             if (connectionCode == 200) {
-                System.out.println("Link is valid");
                 return true;
             } else {
                 return false;
@@ -109,10 +108,10 @@ public class UrlHandler {
         return block;
     }
 
-    // Will filter 1 block of text and return a List of playable words
-    public List<String> filterBlock () {
+    // Will filter 1 block of text and return a Set of playable words
+    public Set<String> filterBlock () {
 
-        List<String> stringList = new ArrayList<>();
+        Set<String> stringSet = new HashSet<>();
 
         String block = getBlockFromURL();
         String[] blockToArray = block.split("\\s+");
@@ -123,11 +122,11 @@ public class UrlHandler {
             // if word is not empty, it's valid
             if (!filteredWord.isEmpty()
             && isWordValid(filteredWord))
-                stringList.add(filteredWord.toUpperCase());
+                stringSet.add(filteredWord.toUpperCase());
         }
 
-        System.out.println("stringList: " + stringList);
-        return stringList;
+        // System.out.println("stringSet: " + stringSet);
+        return stringSet;
     }
 
     //Gets 1 String return true if it's a playable word
