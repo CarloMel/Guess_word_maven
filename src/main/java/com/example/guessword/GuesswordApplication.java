@@ -32,7 +32,7 @@ public class GuesswordApplication implements CommandLineRunner {
 
 	public void test() {
 
-		UrlHandler urlHandler = new UrlHandler("https://terraria.wiki.gg/wiki/Golden_Shower");
+		UrlHandler urlHandler = new UrlHandler("https://www.ebay.it/");
 		WordGuessGame wordGuessGame = new WordGuessGame(urlHandler.getSetFromUrl());
 
 		System.out.println("LIST: " + urlHandler.getSetFromUrl());

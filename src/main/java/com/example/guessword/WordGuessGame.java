@@ -8,6 +8,8 @@ public class WordGuessGame {
 
     private String wordToGuess;
     private Set<String> setList;
+    private char userInput;
+    private String userWord;
 
     public WordGuessGame(Set<String> setList) {
 
@@ -30,6 +32,22 @@ public class WordGuessGame {
         this.setList = setList;
     }
 
+    public char getUserInput() {
+        return userInput;
+    }
+
+    public void setUserInput(char userInput) {
+        this.userInput = userInput;
+    }
+
+    public String getUserWord() {
+        return userWord;
+    }
+
+    public void setUserWord(String userWord) {
+        this.userWord = userWord;
+    }
+
     // choose randomically a number based on List length
     public int selectRandomFromSet() {
 
@@ -41,27 +59,59 @@ public class WordGuessGame {
 
     public void playGame() {
 
-        System.out.println(showUnderScoreInsteadOfWord());
+        boolean victory = false;
+        do {
 
-        System.out.println("Guess the word, letter by letter!");
-        Scanner scanner = new Scanner(System.in);
-        char userInput = scanner.nextLine().charAt(0);
+            System.out.println(getWordToGuess().length() + " letters: ");
+            System.out.println("Guess a letter!");
+            System.out.println(getUserWord());
+            Scanner scanner = new Scanner(System.in);
+            setUserInput(scanner.nextLine().charAt(0));
 
-        scanner.close();
+            if (wordIsGuessed()) {
+
+                System.out.println("You guessed the word!");
+                System.out.println(getWordToGuess());
+                victory = true;
+                scanner.close();
+            }
+
+        } while (victory = false);
     }
 
-    // This will show as many "_" as the word's size
-    public String showUnderScoreInsteadOfWord() {
+    // // This will show as many "_" as the word's size
+    public String underScorePlacer() {
 
-
-        System.out.println(getWordToGuess().length() + " letters: ");
         String worldPlaceHolder = "";
         for (int x = 0; x < getWordToGuess().length(); x++)
 
-            worldPlaceHolder += " " + "_" + "";
+            if (!letterIsPresent(userInput)) {
+                worldPlaceHolder += " " + "_" + " ";
+            }
 
         return worldPlaceHolder;
     }
+
+    public boolean letterIsPresent(char letter) {
+
+        String word = getWordToGuess();
+        for (int x = 0; x < word.length(); x++) {
+            if (word.toCharArray()[x] == letter)
+                return true;
+        }
+        return false;
+    }
+
+    public boolean wordIsGuessed() {
+        if (getWordToGuess().equals(getUserWord()))
+            return true;
+
+        return false;
+    }
+
+    // DEVO AGGIUNGERE UN METODO CHE AGGIUNGA LE GIUSTE LETTERE
+    // ALLE GIUSTE POSIZIONI DELLA PAROLA
+    // E FARE IN MODO CHE underScorePlacer non sostituisca le lettere già scoperte
 
     @Override
     public String toString() {
