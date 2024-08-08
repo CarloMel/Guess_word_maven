@@ -1,5 +1,7 @@
 package com.example.guessword;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
@@ -10,10 +12,20 @@ public class WordGuessGame {
     private Set<String> setList;
     private char userInput;
     private String userWord;
+    private Map<Integer, Character> userMap;
 
     public WordGuessGame(Set<String> setList) {
 
         this.setList = setList;
+        userMap = new HashMap<>();
+    }
+
+    public Map<Integer, Character> getUserMap() {
+        return userMap;
+    }
+
+    public void setUserMap(Map<Integer, Character> userMap) {
+        this.userMap = userMap;
     }
 
     public String getWordToGuess() {
@@ -64,7 +76,7 @@ public class WordGuessGame {
 
             System.out.println(getWordToGuess().length() + " letters: ");
             System.out.println("Guess a letter!");
-            System.out.println(getUserWord());
+            System.out.println("Letters guessed so far: " + getUserWord());
             Scanner scanner = new Scanner(System.in);
             setUserInput(scanner.nextLine().charAt(0));
 
@@ -79,17 +91,30 @@ public class WordGuessGame {
         } while (victory = false);
     }
 
-    // // This will show as many "_" as the word's size
-    public String underScorePlacer() {
+    // DEVO AGGIUNGERE UN METODO CHE AGGIUNGA LE GIUSTE LETTERE
+    // ALLE GIUSTE POSIZIONI DELLA PAROLA
+    // E FARE IN MODO CHE underScorePlacer non sostituisca le lettere già scoperte
+    public void letterPlacer(char letter) {
 
-        String worldPlaceHolder = "";
-        for (int x = 0; x < getWordToGuess().length(); x++)
+        char[] wordPlaceHolderArr = new char[getWordToGuess().length()];
+        String wordPlaceHolder = "";
 
-            if (!letterIsPresent(userInput)) {
-                worldPlaceHolder += " " + "_" + " ";
+        for (int x = 0; x < getWordToGuess().length(); x++) {
+
+            if (letterIsPresent(letter) && letter != getUserMap().get(x)) {
+
+                getUserMap().put(x, letter);
+                wordPlaceHolderArr[x] = letter;
+            } else {
+                wordPlaceHolderArr[x] = '_';
             }
+        }
 
-        return worldPlaceHolder;
+        for (char c : wordPlaceHolderArr) {
+            wordPlaceHolder += c;
+        }
+
+        setUserWord(wordPlaceHolder);
     }
 
     public boolean letterIsPresent(char letter) {
@@ -108,10 +133,6 @@ public class WordGuessGame {
 
         return false;
     }
-
-    // DEVO AGGIUNGERE UN METODO CHE AGGIUNGA LE GIUSTE LETTERE
-    // ALLE GIUSTE POSIZIONI DELLA PAROLA
-    // E FARE IN MODO CHE underScorePlacer non sostituisca le lettere già scoperte
 
     @Override
     public String toString() {
