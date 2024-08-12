@@ -152,30 +152,38 @@ public class WordGuessGame {
 
         int tries = getTryCounter();
         int wordLength = getWordToGuess().length();
-
-        if (tries <= wordLength)
+    
+        if (tries <= wordLength) {
             return "S++! PERFECT JOB!";
-
-        if (tries <= (wordLength * 2))
+        }
+    
+        if (tries <= (wordLength * 2)) {
             return "S";
-
-        if (tries <= (wordLength * 3))
+        }
+    
+        if (tries <= (wordLength * 3 - (wordLength / 2))) {
             return "A";
-
-        if (tries <= (wordLength * 4))
+        }
+    
+        if (tries <= (wordLength * 4 - (wordLength / 3))) {
             return "B";
-
-        if (tries <= (wordLength * 5))
+        }
+    
+        if (tries <= (wordLength * 5 - (wordLength / 4))) {
             return "C";
-
-        if (tries <= (wordLength * 6))
+        }
+    
+        if (tries <= (wordLength * 6 - (wordLength / 5))) {
             return "D";
-
-        if (tries <= (wordLength * 7))
+        }
+    
+        if (tries <= (wordLength * 7 - (wordLength / 6))) {
             return "E";
-
+        }
+    
         return "F";
     }
+    
 
     public String getQwerty() {
         char[] qwertyOrder = {

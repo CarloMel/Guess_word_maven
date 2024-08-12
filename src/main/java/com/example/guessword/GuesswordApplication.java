@@ -2,8 +2,9 @@
  * CODE IDEA:
  * Enter (by scanner or by code) a link and the programm will catch
  * all the valid words (no numbers or strange strings).
- * Then it randomly selects a word and you have to guess it within
- * N guesses (they will increase according to the length of the word)
+ * Then it randomly selects a word and you have to guess it.
+ * based on how many tries you use for guessing the word,
+ * you'll have a final rating.
  * You guess a word letter by letter
  */
 
@@ -26,8 +27,8 @@ public class GuesswordApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		start();
-		// test();
+		// start();
+		test();
 	}
 
 	public void test() {

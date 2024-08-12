@@ -142,7 +142,7 @@ public class UrlHandler {
                 .toUpperCase()
                 .toCharArray()) {
 
-            if (!Character.isLetter(c))
+            if (c < 'A' || c > 'Z')
                 return false;
         }
         return true;
