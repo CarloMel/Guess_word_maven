@@ -26,8 +26,8 @@ public class GuesswordApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		// start();
-		test();
+		start();
+		// test();
 	}
 
 	public void test() {
