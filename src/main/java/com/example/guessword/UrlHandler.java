@@ -109,19 +109,19 @@ public class UrlHandler {
     }
 
     // Will filter 1 block of text and return a Set of playable words
-    public Set<String> filterBlock () {
+    public Set<String> filterBlock() {
 
         Set<String> stringSet = new HashSet<>();
 
         String block = getBlockFromURL();
         String[] blockToArray = block.split("\\s+");
-        for (String s : blockToArray){
+        for (String s : blockToArray) {
 
             String filteredWord = s.replaceAll("^[,.!?;:]+|[,.!?;:]+$", "");
 
             // if word is not empty, it's valid
             if (!filteredWord.isEmpty()
-            && isWordValid(filteredWord))
+                    && isWordValid(filteredWord))
                 stringSet.add(filteredWord.toUpperCase());
         }
 
@@ -129,7 +129,7 @@ public class UrlHandler {
         return stringSet;
     }
 
-    //Gets 1 String return true if it's a playable word
+    // Gets 1 String return true if it's a playable word
     public boolean isWordValid(String word) {
 
         String s = word;

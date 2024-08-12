@@ -10,8 +10,13 @@
 
 package com.example.guessword;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -31,9 +36,15 @@ public class GuesswordApplication implements CommandLineRunner {
 		test();
 	}
 
+		// https://www.ebay.it/
 	public void test() {
 
-		UrlHandler urlHandler = new UrlHandler("https://www.ebay.it/");
+		Scanner scanner = new Scanner (System.in);
+		System.out.println("Insert a valid link");
+		String userURL = scanner.nextLine().trim();
+
+		UrlHandler urlHandler = new UrlHandler(userURL);
+		scanner.close();
 		WordGuessGame wordGuessGame = new WordGuessGame(urlHandler.getSetFromUrl());
 
 		System.out.println("LIST: " + urlHandler.getSetFromUrl());
@@ -70,4 +81,6 @@ public class GuesswordApplication implements CommandLineRunner {
 
 		wordGuessManager.playGame();
 	}
+
+
 }
