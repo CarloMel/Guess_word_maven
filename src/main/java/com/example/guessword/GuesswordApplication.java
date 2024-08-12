@@ -44,6 +44,8 @@ public class GuesswordApplication implements CommandLineRunner {
 		List<String> setToList = new ArrayList<>(wordGuessGame.getSetList());
 		// setting a random element of the list as word to guess
 		wordGuessGame.setWordToGuess(setToList.get(randomNumber));
+		// setting userWord length the same as WordToGuess
+		wordGuessGame.setUserWord("_".repeat(wordGuessGame.getWordToGuess().length()));
 
 		System.out.println("RANDOM NUMBER BASED ON LIST LENGTH: " + randomNumber);
 		System.out.println("The " + randomNumber + "° SET ELEMENT IS: " + setToList.get(randomNumber));
@@ -62,7 +64,9 @@ public class GuesswordApplication implements CommandLineRunner {
 		List<String> setToList = new ArrayList<>(wordGuessManager.getSetList());
 		// setting a random element of the list as word to guess
 		wordGuessManager.setWordToGuess(setToList.get(randomNumber));
+		// setting userWord length the same as WordToGuess
+		wordGuessManager.setUserWord("_".repeat(wordGuessManager.getWordToGuess().length()));
 
-		System.out.println(wordGuessManager);
+		wordGuessManager.playGame();
 	}
 }

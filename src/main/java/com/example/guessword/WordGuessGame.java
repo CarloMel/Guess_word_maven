@@ -1,7 +1,5 @@
 package com.example.guessword;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
@@ -11,21 +9,11 @@ public class WordGuessGame {
     private String wordToGuess;
     private Set<String> setList;
     private char userInput;
-    private String userWord;
-    private Map<Integer, Character> userMap;
+    private String userWord = "";
 
     public WordGuessGame(Set<String> setList) {
 
         this.setList = setList;
-        userMap = new HashMap<>();
-    }
-
-    public Map<Integer, Character> getUserMap() {
-        return userMap;
-    }
-
-    public void setUserMap(Map<Integer, Character> userMap) {
-        this.userMap = userMap;
     }
 
     public String getWordToGuess() {
@@ -72,59 +60,41 @@ public class WordGuessGame {
     public void playGame() {
 
         boolean victory = false;
+        Scanner scanner = new Scanner(System.in);
+
         do {
 
             System.out.println(getWordToGuess().length() + " letters: ");
             System.out.println("Guess a letter!");
             System.out.println("Letters guessed so far: " + getUserWord());
-            Scanner scanner = new Scanner(System.in);
             setUserInput(scanner.nextLine().charAt(0));
+            letterPlacer(getUserInput());
 
             if (wordIsGuessed()) {
 
                 System.out.println("You guessed the word!");
                 System.out.println(getWordToGuess());
                 victory = true;
-                scanner.close();
+
             }
 
-        } while (victory = false);
+        } while (!victory);
+
+        scanner.close();
     }
 
-    // DEVO AGGIUNGERE UN METODO CHE AGGIUNGA LE GIUSTE LETTERE
-    // ALLE GIUSTE POSIZIONI DELLA PAROLA
-    // E FARE IN MODO CHE underScorePlacer non sostituisca le lettere già scoperte
     public void letterPlacer(char letter) {
 
-        char[] wordPlaceHolderArr = new char[getWordToGuess().length()];
-        String wordPlaceHolder = "";
+        char[] wordToGuessArray = getWordToGuess().toCharArray();
+        StringBuilder userWord = new StringBuilder(getUserWord());
 
-        for (int x = 0; x < getWordToGuess().length(); x++) {
+        for (int x = 0; x < wordToGuessArray.length; x++) {
 
-            if (letterIsPresent(letter) && letter != getUserMap().get(x)) {
-
-                getUserMap().put(x, letter);
-                wordPlaceHolderArr[x] = letter;
-            } else {
-                wordPlaceHolderArr[x] = '_';
-            }
+            if (wordToGuessArray[x] == Character.toUpperCase(letter))
+                userWord.setCharAt(x, Character.toUpperCase(letter));
         }
 
-        for (char c : wordPlaceHolderArr) {
-            wordPlaceHolder += c;
-        }
-
-        setUserWord(wordPlaceHolder);
-    }
-
-    public boolean letterIsPresent(char letter) {
-
-        String word = getWordToGuess();
-        for (int x = 0; x < word.length(); x++) {
-            if (word.toCharArray()[x] == letter)
-                return true;
-        }
-        return false;
+        setUserWord(userWord.toString());
     }
 
     public boolean wordIsGuessed() {
