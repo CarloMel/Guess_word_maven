@@ -36,93 +36,131 @@ public class GuesswordApplication implements CommandLineRunner {
 		test();
 	}
 
-		// https://www.ebay.it/
+	// https://www.ebay.it/
 	public void test() {
 
-		Scanner scanner = new Scanner (System.in);
+		Scanner scanner = new Scanner(System.in);
 		boolean linkIsAccepted = false;
+		boolean replayGame = false;
+
 		String userURL;
-		
+
 		do {
-			System.out.println("Insert a valid link to start the game: ");
-			userURL = scanner.nextLine().trim();
+			do {
+				System.out.println("Insert a valid link to start the game: ");
+				userURL = scanner.nextLine().trim();
 
-			if (linkIsValid(userURL)) {
-				System.out.println("Link accepted");
-				linkIsAccepted = true;
-			}
-		} while (!linkIsAccepted);
+				if (linkIsValid(userURL)) {
+					System.out.println("Link accepted");
+					linkIsAccepted = true;
+				}
+			} while (!linkIsAccepted);
 
-		UrlHandler urlHandler = new UrlHandler(userURL);
-		scanner.close();
-		WordGuessGame wordGuessGame = new WordGuessGame(urlHandler.getSetFromUrl());
+			UrlHandler urlHandler = new UrlHandler(userURL);
+			WordGuessGame wordGuessGame = new WordGuessGame(urlHandler.getSetFromUrl());
 
-		System.out.println("LIST: " + urlHandler.getSetFromUrl());
-		System.out.println("LIST SIZE: " + urlHandler.getSetFromUrl().size());
+			System.out.println("LIST: " + urlHandler.getSetFromUrl());
+			System.out.println("LIST SIZE: " + urlHandler.getSetFromUrl().size());
 
-		// generating a random number
-		int randomNumber =   wordGuessGame.selectRandomFromSet();
-		// converting Set to List, so I can work with index
-		List<String> setToList = new ArrayList<>(wordGuessGame.getSetList());
-		// setting a random element of the list as word to guess
-		wordGuessGame.setWordToGuess(setToList.get(randomNumber));
-		// setting userWord length the same as WordToGuess
-		wordGuessGame.setUserWord("_".repeat(wordGuessGame.getWordToGuess().length()));
+			// generating a random number
+			int randomNumber = wordGuessGame.selectRandomFromSet();
+			// converting Set to List, so I can work with index
+			List<String> setToList = new ArrayList<>(wordGuessGame.getSetList());
+			// setting a random element of the list as word to guess
+			wordGuessGame.setWordToGuess(setToList.get(randomNumber));
+			// setting userWord length the same as WordToGuess
+			wordGuessGame.setUserWord("_".repeat(wordGuessGame.getWordToGuess().length()));
 
-		System.out.println("RANDOM NUMBER BASED ON LIST LENGTH: " + randomNumber);
-		System.out.println("The " + randomNumber + "° SET ELEMENT IS: " + setToList.get(randomNumber));
+			System.out.println("RANDOM NUMBER BASED ON LIST LENGTH: " + randomNumber);
+			System.out.println("The " + randomNumber + "° SET ELEMENT IS: " + setToList.get(randomNumber));
 
-		wordGuessGame.playGame();
+			wordGuessGame.playGame();
+			boolean repeat = false;
+
+			do {
+				System.out.println("Do you want to try again with a new game? y/n");
+				char answer = scanner.nextLine().toUpperCase().charAt(0);
+	
+				if (answer == 'y') {
+					replayGame = true;
+					repeat = false;
+				} else if (answer == 'n') {
+					replayGame = false;
+					repeat = false;
+				} else {
+					repeat = true;
+				}
+			} while (repeat);
+
+		} while (replayGame);
+		System.out.println("Thank you for playing!");
+		System.exit(0);
 	}
 
-	public void start() {
+	// public void start() {
 
-		UrlHandler urlHandler = new UrlHandler("https://terraria.wiki.gg/wiki/Golden_Shower");
-		WordGuessGame wordGuessManager = new WordGuessGame(urlHandler.getSetFromUrl());
+	// 	Scanner scanner = new Scanner(System.in);
+	// 	boolean linkIsAccepted = false;
+	// 	String userURL;
 
-		// generating a random number
-		int randomNumber =   wordGuessManager.selectRandomFromSet();
-		// converting Set to List, so I can work with index
-		List<String> setToList = new ArrayList<>(wordGuessManager.getSetList());
-		// setting a random element of the list as word to guess
-		wordGuessManager.setWordToGuess(setToList.get(randomNumber));
-		// setting userWord length the same as WordToGuess
-		wordGuessManager.setUserWord("_".repeat(wordGuessManager.getWordToGuess().length()));
+	// 	do {
+	// 		System.out.println("Insert a valid link to start the game: ");
+	// 		userURL = scanner.nextLine().trim();
 
-		wordGuessManager.playGame();
-	}
+	// 		if (linkIsValid(userURL)) {
+	// 			System.out.println("Link accepted");
+	// 			linkIsAccepted = true;
+	// 		}
+	// 	} while (!linkIsAccepted);
+
+	// 	UrlHandler urlHandler = new UrlHandler(userURL);
+
+	// 	WordGuessGame wordGuessManager = new WordGuessGame(urlHandler.getSetFromUrl());
+
+	// 	// generating a random number
+	// 	int randomNumber = wordGuessManager.selectRandomFromSet();
+	// 	// converting Set to List, so I can work with index
+	// 	List<String> setToList = new ArrayList<>(wordGuessManager.getSetList());
+	// 	// setting a random element of the list as word to guess
+	// 	wordGuessManager.setWordToGuess(setToList.get(randomNumber));
+	// 	// setting userWord length the same as WordToGuess
+	// 	wordGuessManager.setUserWord("_".repeat(wordGuessManager.getWordToGuess().length()));
+
+	// 	wordGuessManager.playGame();
+	// 	scanner.close();
+	// }
 
 	public boolean linkIsValid(String link) {
 
-        try {
+		try {
 
-            // saves inputUrl as URL object
-            URL url = new URL(link);
-            // opens a HTTP connection to the link
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            // set get as method of request
-            connection.setRequestMethod("GET");
-            // set a 5 second timer for the connection
-            connection.setConnectTimeout(5000);
-            // create a variable that will have a code of response for connection
-            int connectionCode = connection.getResponseCode();
-            // close connection
-            connection.disconnect();
+			// saves inputUrl as URL object
+			URL url = new URL(link);
+			// opens a HTTP connection to the link
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			// set get as method of request
+			connection.setRequestMethod("GET");
+			// set a 5 second timer for the connection
+			connection.setConnectTimeout(5000);
+			// create a variable that will have a code of response for connection
+			int connectionCode = connection.getResponseCode();
+			// close connection
+			connection.disconnect();
 
-            if (connectionCode == 200) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (MalformedURLException e) {
-            System.err.println("Unvalid URL: " + e.getMessage());
-            return false;
-        } catch (IOException e) {
-            System.err.println("Connection error or timeout link: " + e.getMessage());
-            return false;
-        } catch (Exception e) {
-            System.err.println("Unexpected error: " + e.getMessage());
-            return false;
-        }
-    }
+			if (connectionCode == 200) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (MalformedURLException e) {
+			System.err.println("Unvalid URL: " + e.getMessage());
+			return false;
+		} catch (IOException e) {
+			System.err.println("Connection error or timeout link: " + e.getMessage());
+			return false;
+		} catch (Exception e) {
+			System.err.println("Unexpected error: " + e.getMessage());
+			return false;
+		}
+	}
 }
