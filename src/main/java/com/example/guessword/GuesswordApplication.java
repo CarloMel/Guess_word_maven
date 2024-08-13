@@ -40,8 +40,18 @@ public class GuesswordApplication implements CommandLineRunner {
 	public void test() {
 
 		Scanner scanner = new Scanner (System.in);
-		System.out.println("Insert a valid link");
-		String userURL = scanner.nextLine().trim();
+		boolean linkIsAccepted = false;
+		String userURL;
+		
+		do {
+			System.out.println("Insert a valid link to start the game: ");
+			userURL = scanner.nextLine().trim();
+
+			if (linkIsValid(userURL)) {
+				System.out.println("Link accepted");
+				linkIsAccepted = true;
+			}
+		} while (!linkIsAccepted);
 
 		UrlHandler urlHandler = new UrlHandler(userURL);
 		scanner.close();
@@ -82,5 +92,37 @@ public class GuesswordApplication implements CommandLineRunner {
 		wordGuessManager.playGame();
 	}
 
+	public boolean linkIsValid(String link) {
 
+        try {
+
+            // saves inputUrl as URL object
+            URL url = new URL(link);
+            // opens a HTTP connection to the link
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            // set get as method of request
+            connection.setRequestMethod("GET");
+            // set a 5 second timer for the connection
+            connection.setConnectTimeout(5000);
+            // create a variable that will have a code of response for connection
+            int connectionCode = connection.getResponseCode();
+            // close connection
+            connection.disconnect();
+
+            if (connectionCode == 200) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (MalformedURLException e) {
+            System.err.println("Unvalid URL: " + e.getMessage());
+            return false;
+        } catch (IOException e) {
+            System.err.println("Connection error or timeout link: " + e.getMessage());
+            return false;
+        } catch (Exception e) {
+            System.err.println("Unexpected error: " + e.getMessage());
+            return false;
+        }
+    }
 }
