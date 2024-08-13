@@ -79,7 +79,7 @@ public class UrlHandler {
         String[] blockToArray = block.split("\\s+");
         for (String s : blockToArray) {
 
-            String filteredWord = s.replaceAll("^[,.!?;:]+|[,.!?;:]+$", "");
+            String filteredWord = s.replaceAll("^[,.!?;:]+|[,.!?;:]+$", "||||");
 
             // if word is not empty, it's valid
             if (!filteredWord.isEmpty()

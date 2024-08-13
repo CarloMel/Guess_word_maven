@@ -13,11 +13,21 @@ public class WordGuessGame {
     private String userWord = "";
     private int tryCounter = 0;
     private Set<Character> lettersUsed;
+    private Scanner gameScanner;
 
-    public WordGuessGame(Set<String> setList) {
+    public WordGuessGame(Set<String> setList, Scanner gameScanner) {
 
-        this.setList = setList;
+        setSetList(setList);
         lettersUsed = new TreeSet<>();
+        setGameScanner(gameScanner);
+    }
+
+    public Scanner getGameScanner() {
+        return gameScanner;
+    }
+
+    public void setGameScanner(Scanner gameScanner) {
+        this.gameScanner = gameScanner;
     }
 
     public Set<Character> getLettersUsed() {
@@ -80,7 +90,6 @@ public class WordGuessGame {
     public void playGame() {
 
         boolean victory = false;
-        Scanner scanner = new Scanner(System.in);
         try {
             do {
 
@@ -89,7 +98,7 @@ public class WordGuessGame {
                 System.out.println("Letters guessed so far: " + getUserWord());
                 System.out.println(getQwerty());
 
-                String userInputString = scanner.nextLine();
+                String userInputString = gameScanner.nextLine();
 
                 if (userInputString.matches(".*\\d.*")) {
                     System.out.println("Number don't work. You must enter a letter");
@@ -118,8 +127,6 @@ public class WordGuessGame {
         } catch (Exception e) {
             System.out.println("You have to write a letter");
         }
-
-        scanner.close();
     }
 
     public void letterPlacer(char letter) {

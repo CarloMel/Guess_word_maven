@@ -1,7 +1,7 @@
 /*
  * CODE IDEA:
- * Enter (by scanner or by code) a link and the programm will catch
- * all the valid words (no numbers or strange strings).
+ * Enter from scanner a link and the programm will catch
+ * all the valid words (no numbers or special characters).
  * Then it randomly selects a word and you have to guess it.
  * based on how many tries you use for guessing the word,
  * you'll have a final rating.
@@ -57,7 +57,7 @@ public class GuesswordApplication implements CommandLineRunner {
 			} while (!linkIsAccepted);
 
 			UrlHandler urlHandler = new UrlHandler(userURL);
-			WordGuessGame wordGuessGame = new WordGuessGame(urlHandler.getSetFromUrl());
+			WordGuessGame wordGuessGame = new WordGuessGame(urlHandler.getSetFromUrl(), scanner);
 
 			System.out.println("LIST: " + urlHandler.getSetFromUrl());
 			System.out.println("LIST SIZE: " + urlHandler.getSetFromUrl().size());
@@ -94,6 +94,7 @@ public class GuesswordApplication implements CommandLineRunner {
 
 		} while (replayGame);
 		System.out.println("Thank you for playing!");
+		scanner.close();
 		System.exit(0);
 	}
 
@@ -115,7 +116,7 @@ public class GuesswordApplication implements CommandLineRunner {
 
 		UrlHandler urlHandler = new UrlHandler(userURL);
 
-		WordGuessGame wordGuessManager = new WordGuessGame(urlHandler.getSetFromUrl());
+		WordGuessGame wordGuessManager = new WordGuessGame(urlHandler.getSetFromUrl(), scan);
 
 		// generating a random number
 		int randomNumber = wordGuessManager.selectRandomFromSet();
@@ -127,7 +128,9 @@ public class GuesswordApplication implements CommandLineRunner {
 		wordGuessManager.setUserWord("_".repeat(wordGuessManager.getWordToGuess().length()));
 
 		wordGuessManager.playGame();
+		System.out.println("Thank you for playing!");
 		scan.close();
+		System.exit(0);
 	}
 
 	public boolean linkIsValid(String link) {
