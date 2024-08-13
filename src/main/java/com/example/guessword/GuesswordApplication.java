@@ -80,7 +80,7 @@ public class GuesswordApplication implements CommandLineRunner {
 			do {
 				System.out.println("Do you want to try again with a new game? y/n");
 				char answer = scanner.nextLine().toUpperCase().charAt(0);
-	
+
 				if (answer == 'y') {
 					replayGame = true;
 					repeat = false;
@@ -97,38 +97,38 @@ public class GuesswordApplication implements CommandLineRunner {
 		System.exit(0);
 	}
 
-	// public void start() {
+	public void start() {
 
-	// 	Scanner scanner = new Scanner(System.in);
-	// 	boolean linkIsAccepted = false;
-	// 	String userURL;
+		Scanner scan = new Scanner(System.in);
+		boolean linkIsAccepted = false;
+		String userURL;
 
-	// 	do {
-	// 		System.out.println("Insert a valid link to start the game: ");
-	// 		userURL = scanner.nextLine().trim();
+		do {
+			System.out.println("Insert a valid link to start the game: ");
+			userURL = scan.nextLine().trim();
 
-	// 		if (linkIsValid(userURL)) {
-	// 			System.out.println("Link accepted");
-	// 			linkIsAccepted = true;
-	// 		}
-	// 	} while (!linkIsAccepted);
+			if (linkIsValid(userURL)) {
+				System.out.println("Link accepted");
+				linkIsAccepted = true;
+			}
+		} while (!linkIsAccepted);
 
-	// 	UrlHandler urlHandler = new UrlHandler(userURL);
+		UrlHandler urlHandler = new UrlHandler(userURL);
 
-	// 	WordGuessGame wordGuessManager = new WordGuessGame(urlHandler.getSetFromUrl());
+		WordGuessGame wordGuessManager = new WordGuessGame(urlHandler.getSetFromUrl());
 
-	// 	// generating a random number
-	// 	int randomNumber = wordGuessManager.selectRandomFromSet();
-	// 	// converting Set to List, so I can work with index
-	// 	List<String> setToList = new ArrayList<>(wordGuessManager.getSetList());
-	// 	// setting a random element of the list as word to guess
-	// 	wordGuessManager.setWordToGuess(setToList.get(randomNumber));
-	// 	// setting userWord length the same as WordToGuess
-	// 	wordGuessManager.setUserWord("_".repeat(wordGuessManager.getWordToGuess().length()));
+		// generating a random number
+		int randomNumber = wordGuessManager.selectRandomFromSet();
+		// converting Set to List, so I can work with index
+		List<String> setToList = new ArrayList<>(wordGuessManager.getSetList());
+		// setting a random element of the list as word to guess
+		wordGuessManager.setWordToGuess(setToList.get(randomNumber));
+		// setting userWord length the same as WordToGuess
+		wordGuessManager.setUserWord("_".repeat(wordGuessManager.getWordToGuess().length()));
 
-	// 	wordGuessManager.playGame();
-	// 	scanner.close();
-	// }
+		wordGuessManager.playGame();
+		scan.close();
+	}
 
 	public boolean linkIsValid(String link) {
 
