@@ -32,8 +32,8 @@ public class GuesswordApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		// start();
-		test();
+		start();
+		// test();
 	}
 
 	// https://www.ebay.it/
@@ -47,6 +47,7 @@ public class GuesswordApplication implements CommandLineRunner {
 
 		do {
 			do {
+				// If you can't paste using shift+v, use ctrl+shift+v instead"
 				System.out.println("Insert a valid link to start the game: ");
 				userURL = scanner.nextLine().trim();
 
