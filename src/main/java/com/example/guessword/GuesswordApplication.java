@@ -32,11 +32,11 @@ public class GuesswordApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		start();
 		// test();
+		start();
 	}
 
-	// https://www.ebay.it/
+	// https://en.wikipedia.org/wiki/%22Hello,_World!%22_program/
 	public void test() {
 
 		Scanner scanner = new Scanner(System.in);
@@ -80,7 +80,7 @@ public class GuesswordApplication implements CommandLineRunner {
 
 			do {
 				System.out.println("Do you want to try again with a new game? y/n");
-				char answer = scanner.nextLine().toUpperCase().charAt(0);
+				char answer = scanner.nextLine().toLowerCase().charAt(0);
 
 				if (answer == 'y') {
 					replayGame = true;
@@ -91,6 +91,7 @@ public class GuesswordApplication implements CommandLineRunner {
 				} else {
 					repeat = true;
 				}
+
 			} while (repeat);
 
 		} while (replayGame);
@@ -104,31 +105,52 @@ public class GuesswordApplication implements CommandLineRunner {
 		Scanner scan = new Scanner(System.in);
 		boolean linkIsAccepted = false;
 		String userURL;
+		boolean replayGame = false;
 
 		do {
-			System.out.println("Insert a valid link to start the game: ");
-			userURL = scan.nextLine().trim();
+			do {
+				System.out.println("Insert a valid link to start the game: ");
+				userURL = scan.nextLine().trim();
 
-			if (linkIsValid(userURL)) {
-				System.out.println("Link accepted");
-				linkIsAccepted = true;
-			}
-		} while (!linkIsAccepted);
+				if (linkIsValid(userURL)) {
+					System.out.println("Link accepted");
+					linkIsAccepted = true;
+				}
+			} while (!linkIsAccepted);
 
-		UrlHandler urlHandler = new UrlHandler(userURL);
+			UrlHandler urlHandler = new UrlHandler(userURL);
 
-		WordGuessGame wordGuessManager = new WordGuessGame(urlHandler.getSetFromUrl(), scan);
+			WordGuessGame wordGuessManager = new WordGuessGame(urlHandler.getSetFromUrl(), scan);
 
-		// generating a random number
-		int randomNumber = wordGuessManager.selectRandomFromSet();
-		// converting Set to List, so I can work with index
-		List<String> setToList = new ArrayList<>(wordGuessManager.getSetList());
-		// setting a random element of the list as word to guess
-		wordGuessManager.setWordToGuess(setToList.get(randomNumber));
-		// setting userWord length the same as WordToGuess
-		wordGuessManager.setUserWord("_".repeat(wordGuessManager.getWordToGuess().length()));
+			// generating a random number
+			int randomNumber = wordGuessManager.selectRandomFromSet();
+			// converting Set to List, so I can work with index
+			List<String> setToList = new ArrayList<>(wordGuessManager.getSetList());
+			// setting a random element of the list as word to guess
+			wordGuessManager.setWordToGuess(setToList.get(randomNumber));
+			// setting userWord length the same as WordToGuess
+			wordGuessManager.setUserWord("_".repeat(wordGuessManager.getWordToGuess().length()));
+			wordGuessManager.playGame();
 
-		wordGuessManager.playGame();
+			boolean repeat = false;
+			do {
+				System.out.println("Do you want to try again with a new game? y/n");
+				char answer = scan.nextLine().toLowerCase().charAt(0);
+
+				if (answer == 'y') {
+					replayGame = true;
+					repeat = false;
+				} else if (answer == 'n') {
+					replayGame = false;
+					repeat = false;
+				} else {
+					repeat = true;
+				}
+
+			} while (repeat);
+
+
+		} while (replayGame);
 		System.out.println("Thank you for playing!");
 		scan.close();
 		System.exit(0);
